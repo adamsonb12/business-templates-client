@@ -1,0 +1,25 @@
+// Styles for body and whole App
+body {
+    background: linear-gradient(#1f364d 6%, #0e2439 30%);
+    min-height: 100vh;
+    font-family: "Source Sans Pro","Helvetica Neue",Helvetica,sans-serif;
+    color: #fff;
+}
+
+#root {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+main {
+    width: 62.5em;
+}
+
+// media queries
+@media screen and (max-width: 64.5em) {
+    main {
+        width: 100%;
+        padding: 0 0.5em;
+    }
+}

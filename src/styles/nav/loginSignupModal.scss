@@ -1,0 +1,17 @@
+article {
+    > section.loginSignup {
+        display: flex;
+        justify-content: space-evenly;
+        margin-bottom: 1em;
+    }
+
+    > section.formSection {
+        width: 25em;
+    }
+}
+
+@media screen and (max-width: 37.5em) {
+    article > section.formSection {
+        width: 100%;
+    }
+}
