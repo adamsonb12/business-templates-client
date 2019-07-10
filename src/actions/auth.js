@@ -14,8 +14,7 @@ export const login = (email, password) => async (dispatch) => {
             password,
         },
     });
-    const user = response.data || null;
-    console.log('user in login', user);
+    const user = response.data && response.data.user ? response.data.user : null;
     dispatch({
         type: LOGIN,
         payload: user,

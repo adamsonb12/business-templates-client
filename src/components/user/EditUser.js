@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from '../../actions/user';
@@ -7,7 +7,7 @@ import { Button } from '../common';
 import '../../styles/user/login.scss';
 
 const EditUser = (props) => {
-    const { newUser, closeModal, formValues = {}, createUser } = props;
+    const { newUser, closeModal, formValues = {}, createUser, editUser, user_id, submitEdit } = props;
     const {
         startingEmail,
         startingNameFirst,
@@ -43,20 +43,48 @@ const EditUser = (props) => {
         e.preventDefault();
 
         // go try to create the user (confirm email isn't already in use before losing state.)
-        if (password !== confirmPassword) {
-            updateMatchingPasswords(false);
+        if (newUser) {
+            if (password !== confirmPassword) {
+                updateMatchingPasswords(false);
+            } else {
+                createUser({
+                    email,
+                    password,
+                    nameFirst,
+                    nameLast,
+                    nameMiddle,
+                    phone,
+                    dateOfBirth,
+                    gender,
+                });
+            }
         } else {
-            console.log('submit');
-            createUser({
-                email,
-                password,
-                nameFirst,
-                nameLast,
-                nameMiddle,
-                phone,
-                dateOfBirth,
-                gender,
-            });
+            const updatedData = { id: user_id };
+            if (email !== startingEmail) {
+                updatedData.email = email;
+            }
+            if (nameFirst !== startingNameFirst) {
+                updatedData.name_first = nameFirst;
+            }
+            if (nameLast !== startingNameLast) {
+                updatedData.name_last = nameLast;
+            }
+            if (nameMiddle !== startingNameMiddle) {
+                updatedData.name_middle = nameMiddle;
+            }
+            if (phone !== startingPhone) {
+                updatedData.phone = phone;
+            }
+            if (dateOfBirth !== startingDateOfBirth) {
+                updatedData.date_birth = dateOfBirth;
+            }
+            if (gender !== startingGender) {
+                updatedData.gender = gender;
+            }
+            if (updatedData && Object.keys(updatedData).length > 0) {
+                editUser(updatedData);
+                submitEdit();
+            }
         }
     };
 
@@ -76,38 +104,42 @@ const EditUser = (props) => {
                     />
                 </label>
             </div>
-            <div className="inputWithLabel">
-                <label htmlFor="password">
-                    Password
-                    <input
-                        id="passwordInput"
-                        type="password"
-                        name="password"
-                        value={password}
-                        minLength={8}
-                        onChange={e => updatePassword(e.target.value)}
-                        required
-                        placeholder="Enter your password"
-                    />
-                </label>
-            </div>
-            <div className="inputWithLabel">
-                <label htmlFor="confirmPasswordInput">
-                    Confirm Password
-                    <input
-                        id="confirmPasswordInput"
-                        type="password"
-                        name="password"
-                        value={confirmPassword}
-                        minLength={8}
-                        onChange={e => updateConfirmPassword(e.target.value)}
-                        required
-                        placeholder="Confirm your password"
-                        className={`${!matchingPasswords ? 'invalid' : ''}`}
-                        onBlur={checkMatch}
-                    />
-                </label>
-            </div>
+            {newUser && (
+                <Fragment>
+                    <div className="inputWithLabel">
+                        <label htmlFor="password">
+                            Password
+                            <input
+                                id="passwordInput"
+                                type="password"
+                                name="password"
+                                value={password}
+                                minLength={8}
+                                onChange={e => updatePassword(e.target.value)}
+                                required
+                                placeholder="Enter your password"
+                            />
+                        </label>
+                    </div>
+                    <div className="inputWithLabel">
+                        <label htmlFor="confirmPasswordInput">
+                            Confirm Password
+                            <input
+                                id="confirmPasswordInput"
+                                type="password"
+                                name="password"
+                                value={confirmPassword}
+                                minLength={8}
+                                onChange={e => updateConfirmPassword(e.target.value)}
+                                required
+                                placeholder="Confirm your password"
+                                className={`${!matchingPasswords ? 'invalid' : ''}`}
+                                onBlur={checkMatch}
+                            />
+                        </label>
+                    </div>
+                </Fragment>
+            )}
             <div className="inputWithLabel">
                 <label htmlFor="nameFirst">
                     First Name
@@ -204,4 +236,7 @@ const EditUser = (props) => {
     );
 };
 
-export default connect(null, actions)(EditUser);
+export default connect(
+    null,
+    actions,
+)(EditUser);

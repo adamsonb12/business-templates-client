@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
+import Container from '@material-ui/core/Container';
 
 import Profile from './components/user/Profile';
 import Main from './components/Main';
@@ -11,14 +12,14 @@ import './styles/App.scss';
 
 const App = () => (
     <BrowserRouter>
-        <main>
+        <Container maxWidth="xl">
             <Nav />
             <Route exact path="/" component={Main} /> {/* Route for home */}
             <Route /> {/* Route for File Page View */}
             <Route /> {/* Route for Editing/Uploading a File */}
-            <Route path="/profile/:user_id" component={Profile} />
+            <Route path="/profile/:userId" component={Profile} />
             <Route /> {/* Route for Editing a User */}
-        </main>
+        </Container>
         {/* footer component */}
     </BrowserRouter>
 );

@@ -1,0 +1,25 @@
+.profileSection {
+    background-color: #1f364d;
+    position: relative;
+    padding: 1em;
+    border-radius: 5px;
+
+    .profileInfo {
+        margin: .5em 0;
+
+        > h5 {
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        > p {
+            margin: 0;
+        }
+    }
+
+    > button {
+        position: absolute;
+        top: 1em;
+        right: 1em;
+    }
+}

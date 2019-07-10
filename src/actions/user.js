@@ -7,7 +7,6 @@ export const createUser = userData => async (dispatch) => {
     const { email, password, nameFirst, nameLast, nameMiddle, phone, dateOfBirth, gender } = userData;
     // TODO get from env variable
     const url = '/user';
-    console.log(email);
     const data = { email, password, name_first: nameFirst, name_last: nameLast, gender };
     if (phone) {
         data.phone_number = phone;
@@ -47,6 +46,7 @@ export const editUser = userData => async (dispatch) => {
     const url = '/user';
     const data = {};
     data.user_id = id;
+    data.options = {};
     Object.keys(userData).forEach((key) => {
         if (key === 'id') {
             data.user_id = userData[key];
@@ -54,13 +54,14 @@ export const editUser = userData => async (dispatch) => {
             data.options[key] = userData[key];
         }
     });
-    if (data.id && data.options && Object.keys(data.options).length > 0) {
-        const response = axios({
+    if (data.user_id && data.options && Object.keys(data.options).length > 0) {
+        const response = await axios({
             method: 'put',
             url,
             data,
         });
-        const updatedUser = response.data;
+        console.log('response', response);
+        const updatedUser = response.data.user;
         dispatch({
             type: EDIT_USER,
             payload: updatedUser,

@@ -19,7 +19,7 @@ class Login extends Component {
     componentDidUpdate(prevProps) {
         // Typical usage (don't forget to compare props):
         const { auth, closeModal } = this.props;
-        if (auth && auth._id && prevProps.auth === null) {
+        if (auth && auth.id && prevProps.auth === null) {
             closeModal();
         }
     }

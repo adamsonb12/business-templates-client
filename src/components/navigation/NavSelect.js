@@ -1,45 +1,42 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Select from '@material-ui/core/Select';
+import Button from '@material-ui/core/Button';
+import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import * as actions from '../../actions/auth';
 
 const NavSelect = (props) => {
+    const [anchorEl, setAnchorEl] = React.useState(null);
     const { auth } = props;
 
-    const handleClick = (e) => {
-        const { value } = e.target;
-        const { logout } = props;
-        if (value === 'logout') {
-            logout();
-        }
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
     };
 
-    console.log('auth', auth);
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const logoutUser = () => {
+        const { logout } = props;
+        logout();
+        handleClose();
+    };
 
     return (
-        <Select id="accountSelect" value="label" onChange={handleClick}>
-            <MenuItem value="label" disabled>
+        <Fragment>
+            <Button aria-controls="accountMenu" aria-haspopup="true" onClick={handleClick}>
                 {auth.name_first || auth.email}
-            </MenuItem>
-            <MenuItem value="account">
-                <Link to={`/profile/${auth._id}`}>My Account</Link>
-            </MenuItem>
-            <MenuItem value="logout">Logout</MenuItem>
-        </Select>
-        // <select id="accountSelect" value="label" onChange={handleClick}>
-        //     <option value="label" disabled>
-        //         {auth.name_first || auth.email}
-        //     </option>
-        //     {/* TODO link the following option using react router and send user to user page */}
-        //     <option value="account">
-        //         {/* <Link to={`/profile/${auth._id}`}>My Account</Link> */}
-        //         <a>da fu</a>
-        //     </option>
-        //     <option value="logout">Logout</option>
-        // </select>
+            </Button>
+            <Menu id="accountMenu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+                <MenuItem onClick={handleClose}>
+                    <Link to={`/profile/${auth.id}`}>My Account</Link>
+                </MenuItem>
+                <MenuItem onClick={logoutUser}>Logout</MenuItem>
+            </Menu>
+        </Fragment>
     );
 };
 

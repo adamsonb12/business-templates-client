@@ -6,7 +6,7 @@ export default function (state = null, action) {
         case EDIT_USER:
         case LOGIN:
             // TODO => check session stuff to see if already logged in, if so get user data ??
-            if (action.payload && action.payload._id) {
+            if (action.payload && action.payload.id) {
                 return action.payload;
             }
             return null;

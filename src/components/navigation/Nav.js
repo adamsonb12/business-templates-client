@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom'
 
 import * as actions from '../../actions/auth';
 import { Button, Modal } from '../common';
@@ -14,9 +15,9 @@ const Nav = (props) => {
 
     return (
         <nav>
-            Icon
+            <Link to="/">Icon</Link>
             <div>
-                {auth && auth._id && <NavSelect />}
+                {auth && auth.id && <NavSelect />}
                 {!auth && <Button buttonClass="action" text="Login/Sign Up" onClick={() => updateModalStatus(true)} />}
             </div>
             <Modal isOpen={modalOpen}>
