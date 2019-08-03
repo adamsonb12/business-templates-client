@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 import * as actions from '../../actions/auth';
 import { Button, Modal } from '../common';
 import LoginSignupModal from './LoginSignupModal';
+import NavSelect from './NavSelect';
 
 import '../../styles/nav/navbar.scss';
-import NavSelect from './NavSelect';
 
 const Nav = (props) => {
     const [modalOpen, updateModalStatus] = useState(false);
@@ -18,7 +18,13 @@ const Nav = (props) => {
             <Link to="/">Icon</Link>
             <div>
                 {auth && auth.id && <NavSelect />}
-                {!auth && <Button buttonClass="action" text="Login/Sign Up" onClick={() => updateModalStatus(true)} />}
+                {!auth && (
+                    <Button
+                        buttonClass="action"
+                        text="Login/Sign Up"
+                        onClick={() => updateModalStatus(true)}
+                    />
+                )}
             </div>
             <Modal isOpen={modalOpen}>
                 <LoginSignupModal closeModal={() => updateModalStatus(false)} />
