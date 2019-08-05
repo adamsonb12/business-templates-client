@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import * as actions from '../../actions/auth';
-import { Button } from '../common';
-
-import '../../styles/user/login.scss';
+import { Button, EmailField, Form, PasswordField } from '../common';
 
 class Login extends Component {
     constructor(props) {
@@ -13,73 +12,82 @@ class Login extends Component {
         this.state = {
             email: '',
             password: '',
+            failed: false,
+            loading: false,
         };
     }
 
+    // If auth and success event is fired then close modal and send to home page logged in
+    // if fail => invalid information errors
+    // test loading here
+
+    handleResult(event) {
+        const { onFinish } = this.props;
+        switch (event.result) {
+            case 'login-failed':
+                this.setState({ failed: true, loading: false });
+                break;
+            case 'login-success':
+                // this.setState({ failed: false, loading: false });
+                break;
+            default:
+                break;
+        }
+    }
+
+    componentDidMount() {
+        document.addEventListener('login-result', this.handleResult.bind(this));
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('login-result', this.handleResult.bind(this));
+    }
+
     componentDidUpdate(prevProps) {
-        // Typical usage (don't forget to compare props):
-        const { auth, closeModal } = this.props;
+        const { auth, onFinish } = this.props;
+        console.log('hwo', auth);
         if (auth && auth.id && prevProps.auth === null) {
-            closeModal();
+            console.log('we have auth');
+            onFinish();
         }
     }
 
     updateEmail(email) {
-        this.setState({ email });
+        this.setState({ email, failed: false });
     }
 
     updatePassword(password) {
-        this.setState({ password });
+        this.setState({ password, failed: false });
     }
 
     login(email, password, event) {
         event.preventDefault();
+        this.setState({ loading: true });
         const { login } = this.props;
         login(email, password);
-        // TODO loading or something to show user we are trying to log them in
-        // TODO on fail, show error message or feedback
     }
 
     render() {
-        const { closeModal } = this.props;
-        const { email, password } = this.state;
+        const { onFinish } = this.props;
+        const { email, password, failed } = this.state;
 
         return (
-            <form id="loginForm" onSubmit={e => this.login(email, password, e)}>
-                <div className="inputWithLabel">
-                    <label htmlFor="email">
-                        Email
-                        <input
-                            id="emailInput"
-                            type="email"
-                            name="email"
-                            value={email}
-                            onChange={e => this.updateEmail(e.target.value)}
-                            required
-                            placeholder="Enter your email address"
-                        />
-                    </label>
-                </div>
-                <div className="inputWithLabel">
-                    <label htmlFor="password">
-                        Password
-                        <input
-                            id="passwordInput"
-                            type="password"
-                            name="password"
-                            value={password}
-                            minLength={8}
-                            onChange={e => this.updatePassword(e.target.value)}
-                            required
-                            placeholder="Enter your password"
-                        />
-                    </label>
-                </div>
-                <section className="closeModal">
-                    <Button buttonClass="cancel" text="Cancel" onClick={closeModal} />
-                    <Button buttonClass="action" text="Do It -The Senate" buttonType="submit" />
+            <Form formId="loginForm" onSubmit={e => this.login(email, password, e)}>
+                <EmailField
+                    value={email}
+                    onChange={e => this.updateEmail(e.target.value)}
+                    error={failed}
+                />
+                <PasswordField
+                    value={password}
+                    onChange={e => this.updatePassword(e.target.value)}
+                    error={failed}
+                />
+                <section className="formFooter loginFormFooter">
+                    <Button buttonClass="cancel" text="Cancel" onClick={onFinish} />
+                    <Button buttonClass="action" text="Submit" buttonType="submit" />
                 </section>
-            </form>
+            </Form>
         );
     }
 }
@@ -87,6 +95,8 @@ class Login extends Component {
 function mapStateToProps({ auth }) {
     return { auth };
 }
+
+Login.propTypes = { onFinish: PropTypes.func.isRequired };
 
 export default connect(
     mapStateToProps,

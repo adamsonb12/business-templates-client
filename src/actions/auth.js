@@ -6,19 +6,32 @@ import { LOGIN, LOGOUT } from './types';
 export const login = (email, password) => async (dispatch) => {
     // TODO get env variable
     const url = '/login';
-    const response = await axios({
-        method: 'post',
-        url,
-        data: {
-            email,
-            password,
-        },
-    });
-    const user = response.data && response.data.user ? response.data.user : null;
-    dispatch({
-        type: LOGIN,
-        payload: user,
-    });
+    try {
+        const response = await axios({
+            method: 'post',
+            url,
+            data: {
+                email,
+                password,
+            },
+        });
+        const user = response.data && response.data.user ? response.data.user : null;
+        if (user) {
+            const event = new Event('login-result')
+            event.result = 'login-success';
+            document.dispatchEvent(event);
+            dispatch({
+                type: LOGIN,
+                payload: user,
+            });
+        } else {
+            throw new Error('login-failed');
+        }
+    } catch (err) {
+        const event = new Event('login-result')
+        event.result = 'login-failed';
+        document.dispatchEvent(event);
+    }
 };
 
 export const logout = () => async (dispatch) => {

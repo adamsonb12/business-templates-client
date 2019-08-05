@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Modal, Button } from './common';
+import { Button } from './common';
 import EditFile from './file/EditFile';
 
 import '../styles/main.scss';
@@ -17,10 +17,6 @@ const Main = () => {
                     text="Add Your Template"
                     onClick={() => updateModalStatus(true)}
                 />
-                <Modal isOpen={modalOpen}>
-                    {/* TODO => if logged in, show create file modal, else show the signup/login modal */}
-                    <EditFile closeModal={() => updateModalStatus(false)} />
-                </Modal>
             </section>
             <section>Sorting</section>
             <article>files listed here</article>
@@ -29,3 +25,8 @@ const Main = () => {
 };
 
 export default Main;
+
+                // <Modal isOpen={modalOpen}>
+                //     {/* TODO => if logged in, show create file modal, else show the signup/login modal */}
+                //     <EditFile closeModal={() => updateModalStatus(false)} />
+                // </Modal>

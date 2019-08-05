@@ -2,12 +2,18 @@ import React, { useState, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from '../../actions/user';
-import { Button } from '../common';
-
-import '../../styles/user/login.scss';
+import { Button, Form, PasswordField } from '../common';
 
 const EditUser = (props) => {
-    const { newUser, closeModal, formValues = {}, createUser, editUser, user_id, submitEdit } = props;
+    const {
+        newUser,
+        closeModal,
+        formValues = {},
+        createUser,
+        editUser,
+        user_id,
+        submitEdit,
+    } = props;
     const {
         startingEmail,
         startingNameFirst,
@@ -87,6 +93,12 @@ const EditUser = (props) => {
             }
         }
     };
+
+    return (
+        <Form formId="editUser" onSubmit={() => console.log('we are here')}>
+            <PasswordField value={password} onChange={e => updatePassword(e.target.value)} />
+        </Form>
+    );
 
     return (
         <form id="editUser" onSubmit={submitUser}>

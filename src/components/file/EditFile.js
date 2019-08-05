@@ -8,7 +8,7 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 import { Button } from '../common';
 import CATEGORY_NAMES from '../../utils/constants/categoryNames';
 
-import '../../styles/common/formIntegrations.scss';
+import '../../styles/common/forms.scss';
 
 const EditFile = (props) => {
     const {

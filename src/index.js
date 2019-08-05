@@ -4,7 +4,6 @@ import axios from 'axios';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import reduxThunk from 'redux-thunk';
-import ReactModal from 'react-modal';
 import * as serviceWorker from './serviceWorker';
 
 import App from './App';
@@ -14,11 +13,9 @@ axios.defaults.baseURL = 'http://localhost:5000/';
 axios.defaults.proxy = {
     host: 'http://localhost',
     port: 5000,
-  };
+};
 
 const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
-
-ReactModal.setAppElement('#root');
 
 ReactDOM.render(
     <Provider store={store}>

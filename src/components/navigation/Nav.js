@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import * as actions from '../../actions/auth';
-import { Button, Modal } from '../common';
-import LoginSignupModal from './LoginSignupModal';
+import { Button, StandardDialogue } from '../common';
+import LoginSignupSwitch from './LoginSignupSwitch';
 import NavSelect from './NavSelect';
 
 import '../../styles/nav/navbar.scss';
@@ -26,9 +26,13 @@ const Nav = (props) => {
                     />
                 )}
             </div>
-            <Modal isOpen={modalOpen}>
-                <LoginSignupModal closeModal={() => updateModalStatus(false)} />
-            </Modal>
+            <StandardDialogue
+                open={modalOpen}
+                closeModal={() => updateModalStatus(false)}
+                customFooter
+            >
+                <LoginSignupSwitch closeModal={() => updateModalStatus(false)} />
+            </StandardDialogue>
         </nav>
     );
 };
