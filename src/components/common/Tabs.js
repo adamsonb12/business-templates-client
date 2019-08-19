@@ -59,11 +59,7 @@ const TabDividers = ({ tabs }) => {
                         ))}
                 </Tabs>
             </AppBar>
-            <SwipeableViews
-                axis="x"
-                index={tabTracker}
-                onChangeIndex={handleChange}
-            >
+            <SwipeableViews axis="x" index={tabTracker} onChangeIndex={handleChange}>
                 {tabs
                     && tabs.map((tab, index) => (
                         <TabPanel
@@ -82,10 +78,7 @@ const TabDividers = ({ tabs }) => {
 
 TabDividers.propTypes = {
     tabs: PropTypes.arrayOf(
-        PropTypes.oneOfType({
-            title: PropTypes.string.isRequired,
-            content: PropTypes.func.isRequired,
-        }),
+        PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.func.isRequired]),
     ).isRequired,
 };
 

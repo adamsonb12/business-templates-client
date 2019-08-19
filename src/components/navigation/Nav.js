@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import * as actions from '../../actions/auth';
-import { Button, StandardDialogue } from '../common';
+import { HugoButton, StandardDialogue } from '../common';
 import LoginSignupSwitch from './LoginSignupSwitch';
 import NavSelect from './NavSelect';
 
@@ -19,8 +19,7 @@ const Nav = (props) => {
             <div>
                 {auth && auth.id && <NavSelect />}
                 {!auth && (
-                    <Button
-                        buttonClass="action"
+                    <HugoButton
                         text="Login/Sign Up"
                         onClick={() => updateModalStatus(true)}
                     />

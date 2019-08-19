@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
@@ -8,7 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import * as actions from '../../actions/auth';
 
 const NavSelect = (props) => {
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
     const { auth } = props;
 
     const handleClick = (event) => {

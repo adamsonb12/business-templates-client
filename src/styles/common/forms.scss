@@ -1,10 +1,14 @@
+.dropdown {
+    width: 100%;
+}
+
 .standardForm {
     section.formFooter {
         margin-top: 2em;
     }
 }
 
-.loginFormFooter {
+.modalFormFooter {
     display: flex;
     justify-content: space-between;
 }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import * as actions from '../../actions/auth';
-import { Button, EmailField, Form, PasswordField } from '../common';
+import { EmailField, Form, HugoButton, PasswordField } from '../common';
 
 class Login extends Component {
     constructor(props) {
@@ -16,22 +16,14 @@ class Login extends Component {
             loading: false,
         };
     }
-
-    // If auth and success event is fired then close modal and send to home page logged in
-    // if fail => invalid information errors
     // test loading here
+    // material buttons
+    // if loading disabled or pass loading to button
+    // big loading or button loading?
 
     handleResult(event) {
-        const { onFinish } = this.props;
-        switch (event.result) {
-            case 'login-failed':
-                this.setState({ failed: true, loading: false });
-                break;
-            case 'login-success':
-                // this.setState({ failed: false, loading: false });
-                break;
-            default:
-                break;
+        if (event.result === 'login-failed') {
+            this.setState({ failed: true, loading: false });
         }
     }
 
@@ -45,9 +37,10 @@ class Login extends Component {
 
     componentDidUpdate(prevProps) {
         const { auth, onFinish } = this.props;
-        console.log('hwo', auth);
         if (auth && auth.id && prevProps.auth === null) {
             console.log('we have auth');
+            // TODO => test this with red
+            this.setState({ loading: false, failed: false });
             onFinish();
         }
     }
@@ -82,10 +75,11 @@ class Login extends Component {
                     value={password}
                     onChange={e => this.updatePassword(e.target.value)}
                     error={failed}
+                    passwordId="loginPassword"
                 />
-                <section className="formFooter loginFormFooter">
-                    <Button buttonClass="cancel" text="Cancel" onClick={onFinish} />
-                    <Button buttonClass="action" text="Submit" buttonType="submit" />
+                <section className="formFooter modalFormFooter">
+                    <HugoButton text="Cancel" onClick={onFinish} color="secondary" />
+                    <HugoButton text="Submit" type="submit" />
                 </section>
             </Form>
         );

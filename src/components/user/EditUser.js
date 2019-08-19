@@ -2,17 +2,17 @@ import React, { useState, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from '../../actions/user';
-import { Button, Form, PasswordField } from '../common';
+import { EmailField, Form, HugoButton, PasswordField, TextInput } from '../common';
 
 const EditUser = (props) => {
     const {
-        newUser,
-        closeModal,
-        formValues = {},
         createUser,
         editUser,
-        user_id,
+        formValues = {},
+        newUser,
+        onFinish,
         submitEdit,
+        user_id,
     } = props;
     const {
         startingEmail,
@@ -96,106 +96,53 @@ const EditUser = (props) => {
 
     return (
         <Form formId="editUser" onSubmit={() => console.log('we are here')}>
-            <PasswordField value={password} onChange={e => updatePassword(e.target.value)} />
-        </Form>
-    );
-
-    return (
-        <form id="editUser" onSubmit={submitUser}>
-            <div className="inputWithLabel">
-                <label htmlFor="email">
-                    Email
-                    <input
-                        id="emailInput"
-                        type="email"
-                        name="email"
-                        value={email}
-                        onChange={e => updateEmail(e.target.value)}
-                        required
-                        placeholder="Enter your email address"
-                    />
-                </label>
-            </div>
+            <EmailField
+                value={email}
+                onChange={e => updateEmail(e.target.value)}
+                required
+                emailId="edit-user-email"
+            />
             {newUser && (
                 <Fragment>
-                    <div className="inputWithLabel">
-                        <label htmlFor="password">
-                            Password
-                            <input
-                                id="passwordInput"
-                                type="password"
-                                name="password"
-                                value={password}
-                                minLength={8}
-                                onChange={e => updatePassword(e.target.value)}
-                                required
-                                placeholder="Enter your password"
-                            />
-                        </label>
-                    </div>
-                    <div className="inputWithLabel">
-                        <label htmlFor="confirmPasswordInput">
-                            Confirm Password
-                            <input
-                                id="confirmPasswordInput"
-                                type="password"
-                                name="password"
-                                value={confirmPassword}
-                                minLength={8}
-                                onChange={e => updateConfirmPassword(e.target.value)}
-                                required
-                                placeholder="Confirm your password"
-                                className={`${!matchingPasswords ? 'invalid' : ''}`}
-                                onBlur={checkMatch}
-                            />
-                        </label>
-                    </div>
+                    <PasswordField
+                        value={password}
+                        onChange={e => updatePassword(e.target.value)}
+                        passwordId="edit-user-password"
+                        required
+                    />
+                    <PasswordField
+                        label="Confirm Password"
+                        onChange={e => updateConfirmPassword(e.target.value)}
+                        passwordId="edit-user-confirm-password"
+                        required
+                        value={confirmPassword}
+                    />
                 </Fragment>
             )}
-            <div className="inputWithLabel">
-                <label htmlFor="nameFirst">
-                    First Name
-                    <input
-                        id="nameFirst"
-                        type="text"
-                        name="nameFirst"
-                        value={nameFirst}
-                        minLength={1}
-                        onChange={e => updateNameFirst(e.target.value)}
-                        required
-                        placeholder="Enter your first name"
-                    />
-                </label>
-            </div>
-            <div className="inputWithLabel">
-                <label htmlFor="nameMiddle">
-                    Middle Name (Optional)
-                    <input
-                        id="nameMiddle"
-                        type="text"
-                        name="nameMiddle"
-                        value={nameMiddle}
-                        minLength={1}
-                        onChange={e => updateNameMiddle(e.target.value)}
-                        placeholder="Enter your middle name"
-                    />
-                </label>
-            </div>
-            <div className="inputWithLabel">
-                <label htmlFor="nameLast">
-                    Last Name
-                    <input
-                        id="nameLast"
-                        type="text"
-                        name="nameLast"
-                        value={nameLast}
-                        minLength={1}
-                        onChange={e => updateNameLast(e.target.value)}
-                        required
-                        placeholder="Enter your last name"
-                    />
-                </label>
-            </div>
+            <TextInput
+                inputId="edit-user-first-name"
+                label="First Name"
+                minLength={1}
+                onChange={e => updateNameFirst(e.target.value)}
+                required
+                value={nameFirst}
+            />
+            <TextInput
+                inputId="edit-user-middle-name"
+                label="Middle Name"
+                minLength={1}
+                onChange={e => updateNameMiddle(e.target.value)}
+                value={nameMiddle}
+            />
+            <TextInput
+                inputId="edit-user-last-name"
+                label="Last Name"
+                minLength={1}
+                onChange={e => updateNameLast(e.target.value)}
+                required
+                value={nameLast}
+            />
+            {/* TODO => commonize a select component */}
             <div className="inputWithLabel">
                 <label htmlFor="gender">
                     Gender
@@ -212,6 +159,7 @@ const EditUser = (props) => {
                     </select>
                 </label>
             </div>
+            {/* TODO => Phone Number Input ??? */}
             <div className="inputWithLabel">
                 <label htmlFor="phone">
                     Phone Number (Optional)
@@ -227,6 +175,7 @@ const EditUser = (props) => {
                     />
                 </label>
             </div>
+            {/* TODO => DATE INPUT */}
             <div className="inputWithLabel">
                 <label htmlFor="dateOfBirth">
                     Date of Birth (Optional)
@@ -240,11 +189,11 @@ const EditUser = (props) => {
                     />
                 </label>
             </div>
-            <section className="closeModal">
-                <Button buttonClass="cancel" text="Cancel" onClick={closeModal} />
-                <Button buttonClass="action" text="Do It -The Senate" buttonType="submit" />
+            <section className="formFooter modalFormFooter">
+                <HugoButton text="Cancel" onClick={onFinish} color="secondary" />
+                <HugoButton text="Submit" type="submit" />
             </section>
-        </form>
+        </Form>
     );
 };
 

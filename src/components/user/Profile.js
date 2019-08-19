@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 
 import * as actions from '../../actions/auth';
-import { Loading } from '../common';
+import { PageLoading } from '../common';
 import EditUser from './EditUser';
 
 import '../../styles/user/profile.scss';
@@ -108,7 +108,7 @@ class Profile extends Component {
                 </article>
             );
         }
-        return <Loading />;
+        return <PageLoading />;
     }
 }
 

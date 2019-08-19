@@ -1,22 +1,18 @@
 import React, { useState } from 'react';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import NativeSelect from '@material-ui/core/NativeSelect';
 
-import { Button } from '../common';
+import { Dropdown, Form, HugoButton, TextInput } from '../common';
 import CATEGORY_NAMES from '../../utils/constants/categoryNames';
 
 import '../../styles/common/forms.scss';
 
 const EditFile = (props) => {
     const {
-        newFile,
-        closeModal,
-        formValues = {},
         createFile,
+        closeModal,
         editFile,
+        formValues = {},
+        newFile,
+        onFinish,
         user_id,
         submitEdit,
     } = props;
@@ -46,75 +42,61 @@ const EditFile = (props) => {
         // Get all data, and confirm it's valid, including make sure we have a real file
         // if new file do create
         // else edit logic
+        onFinish();
     };
 
     return (
-        <article>
+        <Form formId="edit-file" onSubmit={submitFile}>
             <h2>Upload your Business Template</h2>
-            <form id="editFile" onSubmit={submitFile}>
-                <div className="inputWithLabel">
-                    <label htmlFor="fileTitle">
-                        Title
-                        <input
-                            id="fileTitle"
-                            type="text"
-                            name="fileTitle"
-                            value={fileTitle}
-                            minLength={1}
-                            onChange={e => updateFileTitle(e.target.value)}
-                            required
-                        />
-                    </label>
-                </div>
-                <div className="inputWithLabel">
-                    <label htmlFor="fileDescription">
-                        Desription
-                        <textarea
-                            id="fileDescription"
-                            type="text"
-                            name="fileDescription"
-                            value={fileDescription}
-                            minLength={1}
-                            onChange={e => updateFileDescription(e.target.value)}
-                            rows={8}
-                            required
-                        />
-                    </label>
-                </div>
-                <FormControl className="materialUiElement">
-                    <InputLabel htmlFor="fileCategoryName">File Category Type</InputLabel>
-                    <NativeSelect
-                        value={fileCategoryName}
-                        onChange={e => updateFileCategoryName(e.target.value)}
-                        input={<Input name="fileCategoryName" id="fileCategoryName" required />}
-                    >
-                        <option value="" />
-                        {CATEGORY_NAMES
-                            && Object.keys(CATEGORY_NAMES).map(key => (
-                                <option key={key} value={key}>
-                                    {CATEGORY_NAMES[key]}
-                                </option>
-                            ))}
-                    </NativeSelect>
-                </FormControl>
-                <div className="inputWithLabel">
-                    <label htmlFor="file">
-                        File
-                        <input
-                            type="file"
-                            name="file"
-                            value={file}
-                            onChange={e => updateFile(e.target.value)}
-                            required
-                        />
-                    </label>
-                </div>
-                <section className="closeModal">
-                    <Button buttonClass="cancel" text="Cancel" onClick={closeModal} />
-                    <Button buttonClass="action" text="Save File" buttonType="submit" />
-                </section>
-            </form>
-        </article>
+            <TextInput
+                inputId="edit-file-title"
+                label="Title"
+                minLength={1}
+                onChange={e => updateFileTitle(e.target.value)}
+                required
+                value={fileTitle}
+            />
+            {/* Todo => text area in common */}
+            <div className="inputWithLabel">
+                <label htmlFor="fileDescription">
+                    Desription
+                    <textarea
+                        id="fileDescription"
+                        type="text"
+                        name="fileDescription"
+                        value={fileDescription}
+                        minLength={1}
+                        onChange={e => updateFileDescription(e.target.value)}
+                        rows={8}
+                        required
+                    />
+                </label>
+            </div>
+            <Dropdown
+                inputId="file-category-name"
+                label="File Category Type"
+                onChange={e => updateFileCategoryName(e.target.value)}
+                options={CATEGORY_NAMES}
+                value={fileCategoryName}
+            />
+            {/* TODO commonize file input */}
+            <div className="inputWithLabel">
+                <label htmlFor="file">
+                    File
+                    <input
+                        type="file"
+                        name="file"
+                        value={file}
+                        onChange={e => updateFile(e.target.value)}
+                        required
+                    />
+                </label>
+            </div>
+            <section className="formFooter modalFormFooter">
+                <HugoButton text="Cancel" onClick={onFinish} color="secondary" />
+                <HugoButton text="Submit" type="submit" />
+            </section>
+        </Form>
     );
 };
 

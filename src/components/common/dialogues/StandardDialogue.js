@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+
+import { HugoButton } from '..';
 
 const StandardDialogue = ({
     cancelText,
@@ -34,13 +35,8 @@ const StandardDialogue = ({
             </DialogContent>
             {!customFooter && (
                 <DialogActions>
-                    {/* todo => update reusable buttons */}
-                    <Button onClick={closeModal} color="primary">
-                        {cancelText}
-                    </Button>
-                    <Button onClick={handleAction} color="primary">
-                        {submitText}
-                    </Button>
+                    <HugoButton onClick={closeModal} color="secondary" text={cancelText} />
+                    <HugoButton onClick={handleAction} color="primary" text={submitText} />
                 </DialogActions>
             )}
         </Dialog>
