@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Dropdown, Form, HugoButton, TextInput } from '../common';
+import { Dropdown, Form, HugoButton, TextArea, TextInput, UploadFile } from '../common';
 import CATEGORY_NAMES from '../../utils/constants/categoryNames';
 
 import '../../styles/common/forms.scss';
@@ -56,22 +56,13 @@ const EditFile = (props) => {
                 required
                 value={fileTitle}
             />
-            {/* Todo => text area in common */}
-            <div className="inputWithLabel">
-                <label htmlFor="fileDescription">
-                    Desription
-                    <textarea
-                        id="fileDescription"
-                        type="text"
-                        name="fileDescription"
-                        value={fileDescription}
-                        minLength={1}
-                        onChange={e => updateFileDescription(e.target.value)}
-                        rows={8}
-                        required
-                    />
-                </label>
-            </div>
+            <TextArea
+                id="fileDescription"
+                label="Description"
+                required
+                onChange={e => updateFileDescription(e.target.value)}
+                value={fileDescription}
+            />
             <Dropdown
                 inputId="file-category-name"
                 label="File Category Type"
@@ -79,19 +70,12 @@ const EditFile = (props) => {
                 options={CATEGORY_NAMES}
                 value={fileCategoryName}
             />
-            {/* TODO commonize file input */}
-            <div className="inputWithLabel">
-                <label htmlFor="file">
-                    File
-                    <input
-                        type="file"
-                        name="file"
-                        value={file}
-                        onChange={e => updateFile(e.target.value)}
-                        required
-                    />
-                </label>
-            </div>
+            <UploadFile
+                id="file"
+                onChange={e => updateFile(e.target.value)}
+                required
+                value={file}
+            />
             <section className="formFooter modalFormFooter">
                 <HugoButton text="Cancel" onClick={onFinish} color="secondary" />
                 <HugoButton text="Submit" type="submit" />

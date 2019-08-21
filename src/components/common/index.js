@@ -10,6 +10,20 @@ import Dropdown from './forms/Dropdown';
 import EmailField from './forms/EmailField';
 import Form from './forms/Form';
 import PasswordField from './forms/PasswordField';
+import TextArea from './forms/TextArea';
 import TextInput from './forms/TextInput';
+import UploadFile from './forms/UploadFile';
 
-export { Dropdown, EmailField, Form, HugoButton, PageLoading, PasswordField, StandardDialogue, Tabs, TextInput };
+export {
+    Dropdown,
+    EmailField,
+    Form,
+    HugoButton,
+    PageLoading,
+    PasswordField,
+    StandardDialogue,
+    Tabs,
+    TextArea,
+    TextInput,
+    UploadFile,
+};

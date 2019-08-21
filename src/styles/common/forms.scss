@@ -1,14 +1,43 @@
 .dropdown {
-    width: 100%;
+  width: 100%;
+}
+
+.inputWithLabel {
+
+  &.uploadFile {
+    margin-top: 1em;
+  }
+  
+  label {
+    display: flex;
+    flex-direction: column;
+    // copied from material ui
+    color: rgba(0, 0, 0, 0.54);
+    padding: 0;
+    font-size: .75em; // derived from material
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0.00938em;
+
+    input {
+      margin-top: .5em;
+    }
+    
+    textarea {
+      margin: 0.5em 0 1em;
+      font-size: 1rem;
+    }
+  }
 }
 
 .standardForm {
-    section.formFooter {
-        margin-top: 2em;
-    }
+  section.formFooter {
+    margin-top: 2em;
+  }
 }
 
 .modalFormFooter {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
