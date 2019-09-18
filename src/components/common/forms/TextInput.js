@@ -37,9 +37,9 @@ TextInput.defaultProps = {
 };
 
 TextInput.propTypes = {
+    error: PropTypes.bool,
     inputClass: PropTypes.string,
     inputId: PropTypes.string,
-    error: PropTypes.bool,
     fullWidth: PropTypes.bool,
     label: PropTypes.string,
     minLength: PropTypes.number,

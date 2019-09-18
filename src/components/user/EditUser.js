@@ -1,19 +1,23 @@
 import React, { useState, Fragment } from 'react';
 import { connect } from 'react-redux';
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
 
 import * as actions from '../../actions/user';
-import { EmailField, Form, HugoButton, PasswordField, TextInput } from '../common';
+import {
+    Dropdown,
+    EmailField,
+    Form,
+    HugoButton,
+    PasswordField,
+    PhoneInput,
+    TextInput,
+} from '../common';
+import GENDERS from '../../utils/constants/genders';
 
 const EditUser = (props) => {
-    const {
-        createUser,
-        editUser,
-        formValues = {},
-        newUser,
-        onFinish,
-        submitEdit,
-        user_id,
-    } = props;
+    const { createUser, editUser, formValues = {}, newUser, onFinish, submitEdit, user_id } = props;
     const {
         startingEmail,
         startingNameFirst,
@@ -32,7 +36,7 @@ const EditUser = (props) => {
     const [nameMiddle, updateNameMiddle] = useState(startingNameMiddle || '');
     const [phone, updatePhone] = useState(startingPhone || '');
     const [dateOfBirth, updateDateOfBirth] = useState(startingDateOfBirth || '');
-    const [gender, updateGender] = useState(startingGender || 'male');
+    const [gender, updateGender] = useState(startingGender || Object.keys(GENDERS)[0]);
 
     // Validations
     const [matchingPasswords, updateMatchingPasswords] = useState(true);
@@ -142,53 +146,32 @@ const EditUser = (props) => {
                 required
                 value={nameLast}
             />
-            {/* TODO => commonize a select component */}
-            <div className="inputWithLabel">
-                <label htmlFor="gender">
-                    Gender
-                    <select
-                        id="gender"
-                        name="gender"
-                        value={gender}
-                        minLength={1}
-                        onChange={e => updateGender(e.target.value)}
-                    >
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
-                    </select>
-                </label>
-            </div>
-            {/* TODO => Phone Number Input ??? */}
-            <div className="inputWithLabel">
-                <label htmlFor="phone">
-                    Phone Number (Optional)
-                    <input
-                        id="phone"
-                        type="tel"
-                        name="phone"
-                        value={phone}
-                        minLength={1}
-                        onChange={e => updatePhone(e.target.value)}
-                        placeholder="Format: 123-456-7890"
-                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                    />
-                </label>
-            </div>
-            {/* TODO => DATE INPUT */}
-            <div className="inputWithLabel">
-                <label htmlFor="dateOfBirth">
-                    Date of Birth (Optional)
-                    <input
-                        id="dateOfBirth"
-                        type="date"
-                        name="dateOfBirth"
-                        value={dateOfBirth}
-                        minLength={1}
-                        onChange={e => updateDateOfBirth(e.target.value)}
-                    />
-                </label>
-            </div>
+            <Dropdown
+                inputId="edit-user-gender"
+                label="Gender"
+                onChange={e => updateGender(e.target.value)}
+                options={GENDERS}
+                value={gender}
+            />
+            <PhoneInput
+                inputId="edit-user-phone"
+                label="Phone Number (Optional)"
+                onChange={e => updatePhone(e.target.value)}
+                value={phone}
+            />
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="MM/dd/yyyy"
+                    margin="normal"
+                    id="date-of-birth"
+                    label={dateOfBirth ? '' : 'Date of Birth (Optional)'}
+                    value={dateOfBirth}
+                    onChange={date => updateDateOfBirth(date)}
+                    KeyboardButtonProps={{ 'aria-label': 'change date' }}
+                />
+            </MuiPickersUtilsProvider>
             <section className="formFooter modalFormFooter">
                 <HugoButton text="Cancel" onClick={onFinish} color="secondary" />
                 <HugoButton text="Submit" type="submit" />

@@ -1,8 +1,11 @@
 import React from 'react';
 
 import MainHeader from './headers/MainHeader';
-
 import '../styles/main.scss';
+
+const action = event => dispatch => {
+    dispatch(event);
+}
 
 const Main = () => (
     <main>
